@@ -115,6 +115,7 @@
                 android:backgroundTint="#FFFFFF"
                 android:text="-"
                 android:textColor="#000000"
+                android:textDirection="rtl"
                 android:textSize="20sp"
                 app:cornerRadius="40dp" />
 
@@ -257,6 +258,7 @@
         android:layout_width="407dp"
         android:layout_height="188dp"
         android:textColor="#FFFFFF"
+        android:textDirection="rtl"
         android:textSize="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
