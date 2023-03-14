@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private float a;
     private float b;
-
+    private boolean hayComa;
     private boolean borrar;
     private char operacion;
 
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         operacion = ' ';
         a=0;
         b=0;
+        hayComa = false;
         borrar = false;
         b1 = (Button) findViewById(R.id.b1);
         b2 = (Button) findViewById(R.id.b2);
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 a =0;
                 b=0;
                 blanquearBotonOperacion();
+                hayComa=false;
             }
         });
         bC.setOnClickListener(new View.OnClickListener() {
@@ -107,11 +109,15 @@ public class MainActivity extends AppCompatActivity {
         bComa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (text.getText().equals("")||borrar){
-                    text.setText("0.");
-                    colorearOperacionesASuColor();
-                }else
-                    text.setText(text.getText()+".");
+                if (!hayComa) {
+                    if (text.getText().equals("") || borrar) {
+                        text.setText("0.");
+                        colorearOperacionesASuColor();
+                        borrar = false;
+                    } else
+                        text.setText(text.getText() + ".");
+                    hayComa=true;
+                }
             }
         });
 
@@ -131,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
                         a=0;
                         b=0;
                         colorearOperacionesASuColor();
+                        hayComa = false;
                     }
                 }
                 borrar = true;

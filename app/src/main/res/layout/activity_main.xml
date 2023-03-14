@@ -10,6 +10,7 @@
     tools:context=".MainActivity">
 
     <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="413dp"
         android:layout_height="534dp"
         android:background="#000000"
@@ -255,12 +256,14 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="407dp"
-        android:layout_height="188dp"
+        android:layout_width="384dp"
+        android:layout_height="82dp"
         android:textColor="#FFFFFF"
         android:textDirection="rtl"
         android:textSize="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
