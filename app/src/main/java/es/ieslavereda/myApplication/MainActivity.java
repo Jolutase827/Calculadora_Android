@@ -2,14 +2,22 @@ package es.ieslavereda.myApplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private RadioGroup rG;
+    private RadioButton rB;
+    private CheckBox checkBox;
     private float a;
     private float b;
     private boolean hayComa;
@@ -37,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private Button bC;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         b=0;
         hayComa = false;
         borrar = false;
+        rG = (RadioGroup) findViewById(R.id.rG);
+        checkBox = (CheckBox) findViewById(R.id.checkBox);
         b1 = (Button) findViewById(R.id.b1);
         b2 = (Button) findViewById(R.id.b2);
         b3 = (Button) findViewById(R.id.b3);
@@ -67,6 +78,15 @@ public class MainActivity extends AppCompatActivity {
         bC = (Button) findViewById(R.id.bC);
 
 
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b)
+                    rG.setVisibility(View.VISIBLE);
+                else
+                    rG.setVisibility(View.GONE);
+            }
+        });
         b1.setOnClickListener(new BotonNum(b1,text,this));
         b2.setOnClickListener(new BotonNum(b2,text,this));
         b3.setOnClickListener(new BotonNum(b3,text,this));
