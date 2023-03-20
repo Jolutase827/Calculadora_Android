@@ -23,5 +23,7 @@ public class BotonNum implements View.OnClickListener{
             text.setText(numero.getText());
             m.blanquearBotonOperacion();
         }
+        if (m.getOperacion()!=' ')
+            m.setHacerOperacion(true);
     }
 }

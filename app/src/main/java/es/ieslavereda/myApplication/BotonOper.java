@@ -15,12 +15,12 @@ public class BotonOper implements View.OnClickListener{
     }
     @Override
     public void onClick(View view) {
-        if (text.getText().length()>0) {
+        if (m.isHacerOperacion()) {
             if (m.getOperacion() == ' ') {
                 m.setA(Float.parseFloat(text.getText().toString()));
                 m.setOperacion(numero.getText().charAt(0));
                 m.colorearOperacionesASuColor();
-            } else {
+            } else{
                 m.setB(Float.parseFloat(text.getText().toString()));
                 if (m.getB() == 0 && m.getOperacion() == '/') {
                     text.setText("Err.");
@@ -32,9 +32,28 @@ public class BotonOper implements View.OnClickListener{
                     m.colorearOperacionesASuColor();
                 }
             }
-
-
             m.setBorrar(true);
+            m.setHacerOperacion(false);
+            m.setHayComa(false);
+            marcarRadioButton();
+        } else if (text.getText().length()>0) {
+            m.setOperacion(numero.getText().charAt(0));
+            m.colorearOperacionesASuColor();
+            m.setBorrar(true);
+            marcarRadioButton();
+        } else {
+            m.clearMenu();
         }
+    }
+
+    private void marcarRadioButton(){
+        if (m.getOperacion()=='+')
+            m.getRbSuma().setChecked(true);
+        if (m.getOperacion()=='-')
+            m.getRbResta().setChecked(true);
+        if (m.getOperacion()=='*')
+            m.getRbMultipli().setChecked(true);
+        if (m.getOperacion()=='/')
+            m.getRbDivis().setChecked(true);
     }
 }

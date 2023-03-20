@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +16,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean hacerOperacion;
     private RadioGroup rG;
-    private RadioButton rB;
     private CheckBox checkBox;
     private float a;
     private float b;
@@ -44,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
     private Button bAC;
     private Button bC;
 
+    private RadioButton rbSuma;
+    private RadioButton rbResta;
+    private RadioButton rbMultipli;
+    private RadioButton rbDivis;
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,8 +61,13 @@ public class MainActivity extends AppCompatActivity {
         operacion = ' ';
         a=0;
         b=0;
+        hacerOperacion = false;
         hayComa = false;
         borrar = false;
+        rbSuma = findViewById(R.id.radioButtonSuma);
+        rbResta = findViewById(R.id.radioButtonResta);
+        rbDivis = findViewById(R.id.radioButtonDividir);
+        rbMultipli = findViewById(R.id.radioButtonMultiplicar);
         rG = (RadioGroup) findViewById(R.id.rG);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         b1 = (Button) findViewById(R.id.b1);
@@ -77,14 +89,22 @@ public class MainActivity extends AppCompatActivity {
         bAC = (Button) findViewById(R.id.bAC);
         bC = (Button) findViewById(R.id.bC);
 
+        rbSuma.setOnClickListener(new BotonOper(bSuma,text,this));
+        rbMultipli.setOnClickListener(new BotonOper(bMultiplicacion,text,this));
+        rbResta.setOnClickListener(new BotonOper(bResta,text,this));
+        rbDivis.setOnClickListener(new BotonOper(bDivision,text,this));
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b)
+                if (b) {
                     rG.setVisibility(View.VISIBLE);
-                else
+                    checkBox.setText("Menos");
+                }
+                else {
                     rG.setVisibility(View.GONE);
+                    checkBox.setText("Más");
+                }
             }
         });
         b1.setOnClickListener(new BotonNum(b1,text,this));
@@ -103,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
         bResta.setOnClickListener(new BotonOper(bResta,text,this));
         bDivision.setOnClickListener(new BotonOper(bDivision,text,this));
 
-
         bAC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,15 +132,25 @@ public class MainActivity extends AppCompatActivity {
                 b=0;
                 blanquearBotonOperacion();
                 hayComa=false;
+                hacerOperacion=false;
+                clearMenu();
             }
         });
         bC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (text.getText().length()>0)
-                    text.setText(text.getText().subSequence(0,text.getText().length()-1));
+                if (borrar){
+                    text.setText("");
+                }
+                if (text.getText().length()>0) {
+                    if(text.getText().charAt(text.getText().length()-1)=='.')
+                        hayComa=false;
+                    text.setText(text.getText().subSequence(0, text.getText().length() - 1));
+                }
                 if (text.getText().length()==0){
                     colorearOperacionesASuColor();
+                    hacerOperacion=false;
+                    hayComa=false;
                 }
             }
         });
@@ -132,11 +161,12 @@ public class MainActivity extends AppCompatActivity {
                 if (!hayComa) {
                     if (text.getText().equals("") || borrar) {
                         text.setText("0.");
-                        colorearOperacionesASuColor();
+                        blanquearBotonOperacion();
                         borrar = false;
                     } else
                         text.setText(text.getText() + ".");
                     hayComa=true;
+                    hacerOperacion=true;
                 }
             }
         });
@@ -145,20 +175,21 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                if (operacion!=' ') {
+                if (hacerOperacion) {
                     b = Float.parseFloat(text.getText().toString());
                     if (b == 0 && operacion == '/') {
                         text.setText("Err.");
-                        colorearOperacionesASuColor();
                     } else {
                         a = operar();
                         text.setText(Float.toString(a));
                         operacion = ' ';
                         a=0;
                         b=0;
-                        colorearOperacionesASuColor();
                         hayComa = false;
                     }
+                    colorearOperacionesASuColor();
+                    clearMenu();
+                    hacerOperacion=false;
                 }
                 borrar = true;
             }
@@ -166,6 +197,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+
+    public void clearMenu(){
+        rbSuma.setChecked(false);
+        rbResta.setChecked(false);
+        rbMultipli.setChecked(false);
+        rbDivis.setChecked(false);
     }
 
 
@@ -193,12 +232,40 @@ public class MainActivity extends AppCompatActivity {
         return operacion;
     }
 
+    public void setHayComa(boolean hayComa) {
+        this.hayComa = hayComa;
+    }
+
     public void setBorrar(boolean borrar) {
         this.borrar = borrar;
     }
 
+    public boolean isHacerOperacion() {
+        return hacerOperacion;
+    }
+
+    public void setHacerOperacion(boolean hacerOperacion) {
+        this.hacerOperacion = hacerOperacion;
+    }
+
     public boolean isBorrar() {
         return borrar;
+    }
+
+    public RadioButton getRbDivis() {
+        return rbDivis;
+    }
+
+    public RadioButton getRbMultipli() {
+        return rbMultipli;
+    }
+
+    public RadioButton getRbResta() {
+        return rbResta;
+    }
+
+    public RadioButton getRbSuma() {
+        return rbSuma;
     }
 
     public float operar(){
