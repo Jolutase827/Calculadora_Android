@@ -37,6 +37,7 @@ public class BotonOper implements View.OnClickListener{
             m.setHayComa(false);
             marcarRadioButton();
         } else if (text.getText().length()>0) {
+            m.setA(Float.parseFloat(text.getText().toString()));
             m.setOperacion(numero.getText().charAt(0));
             m.colorearOperacionesASuColor();
             m.setBorrar(true);
