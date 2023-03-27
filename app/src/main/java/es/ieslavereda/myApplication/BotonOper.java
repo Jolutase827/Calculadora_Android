@@ -1,5 +1,6 @@
 package es.ieslavereda.myApplication;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ public class BotonOper implements View.OnClickListener{
         this.text = text;
         this.m = m;
     }
+    @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View view) {
         if (m.isHacerOperacion()) {
@@ -42,8 +44,10 @@ public class BotonOper implements View.OnClickListener{
             m.colorearOperacionesASuColor();
             m.setBorrar(true);
             marcarRadioButton();
-        } else {
-            m.clearMenu();
+        } else if (m.getOperacion()!=' '){
+            m.setOperacion(numero.getText().charAt(0));
+            marcarRadioButton();
+            m.colorearOperacionesASuColor();
         }
     }
 

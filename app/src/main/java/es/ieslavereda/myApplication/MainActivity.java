@@ -1,5 +1,6 @@
 package es.ieslavereda.myApplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -13,6 +14,8 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,18 +55,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("hacerOperacion",hacerOperacion);
+        outState.putSerializable("a",a);
+        outState.putSerializable("b",b);
+        outState.putSerializable("borrar",borrar);
+        outState.putSerializable("hayComa", hayComa);
+        outState.putSerializable("operacion",operacion);
+        outState.putSerializable("texto",  text.getText().toString());
+
+    }
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         text = (TextView) findViewById(R.id.textView);
-        operacion = ' ';
-        a=0;
-        b=0;
-        hacerOperacion = false;
-        hayComa = false;
-        borrar = false;
         rbSuma = findViewById(R.id.radioButtonSuma);
         rbResta = findViewById(R.id.radioButtonResta);
         rbDivis = findViewById(R.id.radioButtonDividir);
@@ -89,10 +100,32 @@ public class MainActivity extends AppCompatActivity {
         bAC =  findViewById(R.id.bAC);
         bC =  findViewById(R.id.bC);
 
+        if (savedInstanceState==null) {
+            operacion = ' ';
+            a = 0;
+            b = 0;
+            hacerOperacion = false;
+            hayComa = false;
+            borrar = false;
+
+        }else {
+            operacion = (char) savedInstanceState.get("operacion");
+            hacerOperacion = (boolean) savedInstanceState.get("hacerOperacion");
+            a = (float) savedInstanceState.get("a");
+            b = (float) savedInstanceState.get("b");
+            hayComa = (boolean) savedInstanceState.get("hayComa");
+            borrar = (boolean) savedInstanceState.get("borrar");
+            text.setText(savedInstanceState.get("texto").toString());
+            colorearOperacion();
+
+        }
+
+
         rbSuma.setOnClickListener(new BotonOper(bSuma,text,this));
         rbMultipli.setOnClickListener(new BotonOper(bMultiplicacion,text,this));
         rbResta.setOnClickListener(new BotonOper(bResta,text,this));
         rbDivis.setOnClickListener(new BotonOper(bDivision,text,this));
+
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -198,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
 
     public void clearMenu(){
