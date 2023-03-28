@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -316,6 +317,8 @@ public class MainActivity extends AppCompatActivity {
                 return 0;
         }
     }
+
+
 
     public void colorearOperacionesASuColor(){
         blanquearBotonOperacion();
